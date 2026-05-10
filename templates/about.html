@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h1 class="h3 mb-0">About — Job Application Tracker</h1>
+            </div>
+            <div class="card-body">
+                <p class="lead">
+                    A full-stack web application for tracking job applications, managing progress, and staying organized during the job search process.
+                </p>
+
+                <h2 class="h5 mt-4">Team — High Flyers</h2>
+                <ul>
+                    <li><strong>Boma</strong> — client-side</li>
+                    <li><strong>Aden</strong> — database and security</li>
+                    <li><strong>Darrell</strong> — server-side</li>
+                </ul>
+
+                <h2 class="h5 mt-4">Project type</h2>
+                <p>
+                    Option 3 from the Week 4 lecture: a Job Application Tracker.
+                    Users log and manage their job applications, the app auto-pulls
+                    company context from an external API, tracks application stages,
+                    and supports follow-up reminders.
+                </p>
+
+                <h2 class="h5 mt-4">Target user</h2>
+                <p>
+                    Active job seekers applying to multiple companies at once —
+                    students, recent graduates, or professionals transitioning careers.
+                    They need a centralized, low-friction way to track applications,
+                    follow up on opportunities, and see their pipeline at a glance.
+                </p>
+
+                <h2 class="h5 mt-4">MVP features</h2>
+                <ul>
+                    <li>GitHub OAuth login</li>
+                    <li>Add a job application (company, role, date applied, notes)</li>
+                    <li>Auto-fetch basic company info via API and cache per company</li>
+                    <li>Track application stage (Applied → Interview → Offer → Rejected / Accepted)</li>
+                    <li>Move applications between stages with a simple UI</li>
+                    <li>Follow-up reminder flagging (e.g. "no update in 7 days")</li>
+                </ul>
+
+                <h2 class="h5 mt-4">Endpoints planned</h2>
+                <ul>
+                    <li><code>GET  /</code> — landing page / dashboard</li>
+                    <li><code>GET  /login</code> — GitHub OAuth start</li>
+                    <li><code>GET  /auth/callback</code> — OAuth callback handler</li>
+                    <li><code>POST /logout</code> — clear session</li>
+                    <li><code>GET  /applications</code> — list user's applications</li>
+                    <li><code>POST /applications</code> — create a new application</li>
+                    <li><code>PATCH /applications/&lt;id&gt;</code> — update stage / notes</li>
+                    <li><code>GET  /companies/&lt;domain&gt;</code> — fetch (cached) company info</li>
+                </ul>
+
+                <h2 class="h5 mt-4">Web-based data source</h2>
+                <p>
+                    <strong>Primary:</strong>
+                    <a href="https://clearbit.com/docs#enrichment-api-company-api" target="_blank" rel="noopener">
+                        Clearbit Company API
+                    </a>
+                    — returns company logo, description, and industry data by domain.
+                    Free-tier limits apply; we minimize calls by caching results per company.
+                </p>
+                <p>
+                    <strong>Backup:</strong>
+                    <a href="https://api-ninjas.com/api/company" target="_blank" rel="noopener">
+                        API Ninjas Company Lookup
+                    </a>
+                    — used if Clearbit limits become restrictive. Manual entry is the
+                    final fallback.
+                </p>
+
+                <h2 class="h5 mt-4">Schema sketch</h2>
+                <p>Three core tables:</p>
+                <ul>
+                    <li>
+                        <code>users</code> — <code>id</code> (PK),
+                        <code>github_id</code>, <code>username</code>,
+                        <code>email</code>, <code>created_at</code>
+                    </li>
+                    <li>
+                        <code>applications</code> — <code>id</code> (PK),
+                        <code>user_id</code> (FK → users),
+                        <code>company_domain</code> (FK → companies),
+                        <code>role</code>, <code>date_applied</code>,
+                        <code>stage</code>, <code>notes</code>,
+                        <code>updated_at</code>
+                    </li>
+                    <li>
+                        <code>companies</code> — <code>domain</code> (PK),
+                        <code>name</code>, <code>logo_url</code>,
+                        <code>description</code>, <code>industry</code>,
+                        <code>fetched_at</code>
+                    </li>
+                </ul>
+
+                <h2 class="h5 mt-4">Links</h2>
+                <ul>
+                    <li>
+                        <strong>S3 bucket (static site):</strong>
+                        <a href="https://506-class-2026-demo.s3.amazonaws.com/index.html" target="_blank" rel="noopener">
+                            https://506-class-2026-demo.s3.amazonaws.com/index.html
+                        </a>
+                    </li>
+                    <li>
+                        <strong>GitHub org:</strong>
+                        <a href="https://github.com/tcss-course-506-high-flyers" target="_blank" rel="noopener">
+                            https://github.com/tcss-course-506-high-flyers
+                        </a>
+                    </li>
+                </ul>
+
+                <h2 class="h5 mt-4">Why this project</h2>
+                <p>
+                    The Job Application Tracker offers a strong balance between
+                    technical challenge and real-world usefulness — genuinely an
+                    application all of us might use. It exercises OAuth authentication,
+                    API integration with fallback strategies, relational data modeling,
+                    and interactive UI design. The stage-tracking workflow ensures
+                    meaningful client-side interactivity rather than static pages, and
+                    aligns well with the skills we want to build this quarter.
+                </p>
+
+                <p class="text-muted small mt-4 mb-0">
+                    All members of the team must keep this content in sync.
+                    See the assignment instructions in <code>README.md</code>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
