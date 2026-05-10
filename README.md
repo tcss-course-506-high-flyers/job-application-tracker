@@ -4,7 +4,7 @@ A full-stack web application for tracking job applications, managing progress, a
 
 ---
 
-### Team
+### Team-3
 
 **Team:** High Flyers  
 
